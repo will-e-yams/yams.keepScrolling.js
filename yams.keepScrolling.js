@@ -21,7 +21,8 @@
     KeepScrolling.DEFAULTS = {
         pagenumber: 1,
         pagesize: 10,
-        auto: false,
+        auto: true,
+        threshold: 50, //scroll threshold in px
         loadMoreTemplate: '<div class="clearfix keepScrolling more">Load More</div>',
     }
 
@@ -41,11 +42,13 @@
             this.loadMore(parseInt(this.lastpageloaded) + 1);
         }, this));
 
-        /* monitor scroll event
-        this.$element.on('scroll.yams.keepScrolling', $.proxy(function () {
-            console.log('scroll');
-            console.log(this.$element.scrollTop);
-        }, this));*/
+        // monitor scroll event
+        if (this.options.auto)
+            this.$element.on('scroll.yams.keepScrolling', $.proxy(function () {
+                var distanceToBottom = (this.$element[0].scrollHeight - this.$element.scrollTop() - this.$element.innerHeight());
+                if (distanceToBottom < this.options.threshold)
+                    this.loadMore(parseInt(this.lastpageloaded) + 1);
+            }, this));
     }
 
     KeepScrolling.prototype.getDefaults = function () {
