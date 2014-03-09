@@ -71,11 +71,11 @@
         this.nextpage.load(this.options.url + qsChar + 'pagesize=' + this.options.pagesize + '&pagenumber=' + pagenumber,
                $.proxy(function (e) {
                    this.$element.find('.keepScrolling.more').remove();
-                   this.$element.trigger('loaded.yams.keepScrolling');
                    this.$element.append(this.nextpage);
                    // add button
                    if (!this.options.auto)
                        this.$element.append(this.options.loadMoreTemplate);
+                   this.$element.trigger('loaded.yams.keepScrolling');
                }, this)
         );
     }
