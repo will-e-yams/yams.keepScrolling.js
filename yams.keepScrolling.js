@@ -70,7 +70,7 @@
             qsChar = '&';
 
         this.lastpageloaded = pagenumber;
-        this.nextpage = $('<div class="keepScrolling" data-keepScrolling-page="' + pagenumber + '"></div>');
+        this.nextpage = $('<div class="keepScrolling" data-keepScrolling-page="' + pagenumber + '" style="display:none;"></div>');
         this.nextpage.load(this.options.url + qsChar + 'pagesize=' + this.options.pagesize + '&pagenumber=' + pagenumber,
                $.proxy(function (e) {
                    this.$element.find('.keepScrolling.more').remove();
@@ -78,7 +78,9 @@
                    // add button
                    if (!this.options.auto)
                        this.$element.append(this.options.loadMoreTemplate);
-                   this.$element.trigger('loaded.yams.keepScrolling');
+                   $(this.nextpage).slideDown(
+                       $.proxy(function () { this.$element.trigger('loaded.yams.keepScrolling'); }, this)
+                    );
                }, this)
         );
     }
